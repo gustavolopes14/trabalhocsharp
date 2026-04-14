@@ -48,3 +48,156 @@ O GymTrack é um sistema de gerenciamento desenvolvido para academias, com o obj
 - Criação de **Fichas de Treino** vinculadas a um aluno e a um plano, contendo os exercícios selecionados
 - Listagem das fichas de treino de um aluno específico
 - Consulta de exercícios filtrados por grupo muscular
+- 
+**[⬆ voltar ao topo](#sumário)**
+
+---
+
+## Descrição das Funcionalidades
+
+> *(Produzido com auxílio de IA — Claude, Anthropic)*
+
+### Alunos
+
+O módulo de alunos é o núcleo do sistema. Permite o cadastro completo com nome, e-mail, data de nascimento e data de matrícula. Possui CRUD completo: é possível inserir novos alunos, listar todos os cadastrados, editar informações e remover registros. Os alunos são a entidade central à qual as fichas de treino ficam vinculadas.
+
+### Planos de Treino
+
+Os planos representam as modalidades ou objetivos disponíveis na academia (ex.: Hipertrofia, Emagrecimento, Condicionamento). Cada plano possui nome e descrição. Um aluno pode ter uma ficha associada a um plano específico, permitindo organizar os treinos conforme o objetivo de cada pessoa.
+
+### Exercícios
+
+O cadastro de exercícios reúne os movimentos disponíveis para montagem das fichas. Cada exercício possui nome, descrição e grupo muscular trabalhado (ex.: Peito, Costas, Pernas). Essa entidade permite que a equipe técnica mantenha um banco de exercícios atualizado e reutilizável.
+
+### Fichas de Treino
+
+A ficha de treino é a entidade que integra o sistema: ela vincula um aluno a um plano de treino e lista os exercícios que compõem aquela rotina. Ao criar uma ficha, o instrutor seleciona o aluno, o plano e os exercícios desejados, gerando um registro consultável a qualquer momento. Essa funcionalidade é o principal entregável do sistema, pois transforma os dados cadastrados em algo com utilidade prática real.
+
+**[⬆ voltar ao topo](#sumário)**
+
+---
+
+## Entidades e Relacionamentos
+
+| Entidade | Descrição |
+|---|---|
+| `Aluno` | Dados pessoais do aluno da academia |
+| `PlanoTreino` | Modalidade ou objetivo do treino |
+| `Exercicio` | Movimentos disponíveis com grupo muscular |
+| `FichaTreino` | Vincula Aluno + PlanoTreino + Exercícios |
+
+**Relacionamentos:**
+
+- `FichaTreino` → pertence a um `Aluno`
+- `FichaTreino` → está associada a um `PlanoTreino`
+- `FichaTreino` → contém múltiplos `Exercicios`
+
+**[⬆ voltar ao topo](#sumário)**
+
+---
+
+## Tecnologias Utilizadas
+
+| Tecnologia | Versão | Uso |
+|---|---|---|
+| C# / .NET | 8.0 | Backend — Minimal API REST |
+| Entity Framework Core | — | ORM para acesso ao banco de dados |
+| SQLite | — | Banco de dados relacional |
+| GitHub | — | Versionamento e colaboração |
+| JSON | — | Formato de comunicação da API |
+
+**[⬆ voltar ao topo](#sumário)**
+
+---
+
+## Como Executar
+
+### Pré-requisitos
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [dotnet-ef (Entity Framework CLI)](https://learn.microsoft.com/ef/core/cli/dotnet)
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+### Executando localmente
+
+```bash
+# Clone o repositório
+git clone https://github.com/<usuario>/gymtrack.git
+
+# Acesse a pasta do projeto
+cd gymtrack
+
+# Restaure as dependências
+dotnet restore
+
+# Aplique as migrations para criar o banco de dados
+dotnet ef database update
+
+# Execute a aplicação
+dotnet run
+```
+
+A API estará disponível em `http://localhost:5000`.
+
+**[⬆ voltar ao topo](#sumário)**
+
+---
+
+## Endpoints da API
+
+### Alunos
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/alunos` | Lista todos os alunos |
+| GET | `/alunos/{id}` | Busca aluno por ID |
+| POST | `/alunos` | Cadastra novo aluno |
+| PUT | `/alunos/{id}` | Atualiza dados do aluno |
+| DELETE | `/alunos/{id}` | Remove aluno |
+
+### Planos de Treino
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/planos` | Lista todos os planos |
+| POST | `/planos` | Cadastra novo plano |
+
+### Exercícios
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/exercicios` | Lista todos os exercícios |
+| GET | `/exercicios?grupo={grupo}` | Filtra por grupo muscular |
+| POST | `/exercicios` | Cadastra novo exercício |
+
+### Fichas de Treino
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/fichas/aluno/{alunoId}` | Lista fichas de um aluno |
+| POST | `/fichas` | Cria nova ficha de treino |
+
+**[⬆ voltar ao topo](#sumário)**
+
+---
+
+## Uso de IA
+
+**Ferramenta utilizada:** Claude (Anthropic) — [claude.ai](https://claude.ai)
+
+**Forma de uso:**
+- Fornecemos ao Claude o enunciado do trabalho, o tema escolhido (sistema de academia), os nomes dos integrantes e as informações do curso.
+- Solicitamos a geração do resumo, lista de funcionalidades e descrição detalhada de cada funcionalidade, conforme exigido pelo professor.
+- Os prompts foram direcionados para que o texto refletisse fielmente o escopo técnico do projeto (entidades, relacionamentos e tecnologias).
+- Também utilizamos o Claude para estruturar o README com base nos repositórios de referência indicados pelo professor.
+
+**Revisões realizadas pela equipe:**
+- Verificação da coerência entre as funcionalidades descritas e o que será efetivamente implementado.
+- Ajuste dos nomes das entidades para alinhar com a nomenclatura adotada no código.
+- Revisão e complementação dos endpoints da API conforme o desenvolvimento avançou.
+- Revisão geral da estrutura do README para garantir conformidade com os critérios de avaliação.
+
+**[⬆ voltar ao topo](#sumário)**
