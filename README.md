@@ -42,7 +42,7 @@ O GymTrack é um sistema de gerenciamento desenvolvido para academias, com o obj
 
 > *(Produzido com auxílio de IA — Claude, Anthropic)*
 
-- Cadastro, listagem, edição e remoção de **Alunos** (CRUD completo)
+- Cadastro, listagem, edição e remoção de **Alunos**
 - Cadastro e listagem de **Planos de Treino** (ex.: Musculação, Funcional, Cardio)
 - Cadastro e listagem de **Exercícios** com descrição e grupo muscular
 - Criação de **Fichas de Treino** vinculadas a um aluno e a um plano, contendo os exercícios selecionados
