@@ -4,6 +4,7 @@ using GymTrack.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuração do Banco de Dados SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=gymtrack.db"));
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Configuração do Swagger para testes
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -52,10 +54,10 @@ app.MapDelete("/alunos/{id}", async (int id, AppDbContext db) =>
 });
 
 // ============================================================
-// PLANOS DE TREINO — Responsável: Rafael
+// PLANOS DE TREINO — Responsável: Gustavo
 // ============================================================
 app.MapGet("/planos", async (AppDbContext db) =>
-    await db.PlanosTreino.ToListAsync());
+    await db.PlanosTreino.Include(p => p.FichasTreino).ToListAsync());
 
 app.MapPost("/planos", async (PlanoTreino plano, AppDbContext db) =>
 {
@@ -64,13 +66,35 @@ app.MapPost("/planos", async (PlanoTreino plano, AppDbContext db) =>
     return Results.Created($"/planos/{plano.Id}", plano);
 });
 
+app.MapPut("/planos/{id}", async (int id, PlanoTreino input, AppDbContext db) =>
+{
+    var plano = await db.PlanosTreino.FindAsync(id);
+    if (plano is null) return Results.NotFound();
+    
+    plano.Nome = input.Nome;
+    plano.Descricao = input.Descricao;
+    
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
+app.MapDelete("/planos/{id}", async (int id, AppDbContext db) =>
+{
+    var plano = await db.PlanosTreino.FindAsync(id);
+    if (plano is null) return Results.NotFound();
+    
+    db.PlanosTreino.Remove(plano);
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
 // ============================================================
-// EXERCICIOS — Responsável: Rafael
+// EXERCICIOS — Responsável: Gustavo
 // ============================================================
 app.MapGet("/exercicios", async (string? grupo, AppDbContext db) =>
     string.IsNullOrEmpty(grupo)
-        ? await db.Exercicios.ToListAsync()
-        : await db.Exercicios.Where(e => e.GrupoMuscular == grupo).ToListAsync());
+        ? await db.Exercicios.Include(e => e.FichasTreino).ToListAsync()
+        : await db.Exercicios.Where(e => e.GrupoMuscular == grupo).Include(e => e.FichasTreino).ToListAsync());
 
 app.MapPost("/exercicios", async (Exercicio exercicio, AppDbContext db) =>
 {
@@ -79,8 +103,31 @@ app.MapPost("/exercicios", async (Exercicio exercicio, AppDbContext db) =>
     return Results.Created($"/exercicios/{exercicio.Id}", exercicio);
 });
 
+app.MapPut("/exercicios/{id}", async (int id, Exercicio input, AppDbContext db) =>
+{
+    var exercicio = await db.Exercicios.FindAsync(id);
+    if (exercicio is null) return Results.NotFound();
+
+    exercicio.Nome = input.Nome;
+    exercicio.Descricao = input.Descricao;
+    exercicio.GrupoMuscular = input.GrupoMuscular;
+
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
+app.MapDelete("/exercicios/{id}", async (int id, AppDbContext db) =>
+{
+    var exercicio = await db.Exercicios.FindAsync(id);
+    if (exercicio is null) return Results.NotFound();
+
+    db.Exercicios.Remove(exercicio);
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
 // ============================================================
-// FICHAS DE TREINO — Responsável: Gustavo
+// FICHAS DE TREINO — Responsável: [Próximo Integrante]
 // ============================================================
 app.MapGet("/fichas/aluno/{alunoId}", async (int alunoId, AppDbContext db) =>
     await db.FichasTreino
