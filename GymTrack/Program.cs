@@ -54,7 +54,7 @@ app.MapDelete("/alunos/{id}", async (int id, AppDbContext db) =>
 });
 
 // ============================================================
-// PLANOS DE TREINO — Responsável: Gustavo
+// PLANOS DE TREINO parte1 — Responsável: Gustavo 
 // ============================================================
 app.MapGet("/planos", async (AppDbContext db) =>
     await db.PlanosTreino.Include(p => p.FichasTreino).ToListAsync());
