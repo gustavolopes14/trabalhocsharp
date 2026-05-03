@@ -42,13 +42,13 @@ O GymTrack é um sistema de gerenciamento desenvolvido para academias, com o obj
 
 > *(Produzido com auxílio de IA — Claude, Anthropic)*
 
-- Cadastro, listagem, edição e remoção de **Alunos**
-- Cadastro e listagem de **Planos de Treino** (ex.: Musculação, Funcional, Cardio)
-- Cadastro e listagem de **Exercícios** com descrição e grupo muscular
+- Cadastro, listagem, edição e remoção de **Alunos** (CRUD completo)
+- Cadastro, listagem, edição e remoção de **Planos de Treino** (CRUD completo)
+- Cadastro, listagem, edição e remoção de **Exercícios** com descrição e grupo muscular (CRUD completo)
 - Criação de **Fichas de Treino** vinculadas a um aluno e a um plano, contendo os exercícios selecionados
 - Listagem das fichas de treino de um aluno específico
 - Consulta de exercícios filtrados por grupo muscular
-- 
+
 **[⬆ voltar ao topo](#sumário)**
 
 ---
@@ -63,11 +63,11 @@ O módulo de alunos é o núcleo do sistema. Permite o cadastro completo com nom
 
 ### Planos de Treino
 
-Os planos representam as modalidades ou objetivos disponíveis na academia (ex.: Hipertrofia, Emagrecimento, Condicionamento). Cada plano possui nome e descrição. Um aluno pode ter uma ficha associada a um plano específico, permitindo organizar os treinos conforme o objetivo de cada pessoa.
+Os planos representam as modalidades ou objetivos disponíveis na academia (ex.: Hipertrofia, Emagrecimento, Condicionamento). Cada plano possui nome e descrição. Possui CRUD completo, permitindo criar, listar, editar e remover planos. Um aluno pode ter uma ficha associada a um plano específico, permitindo organizar os treinos conforme o objetivo de cada pessoa.
 
 ### Exercícios
 
-O cadastro de exercícios reúne os movimentos disponíveis para montagem das fichas. Cada exercício possui nome, descrição e grupo muscular trabalhado (ex.: Peito, Costas, Pernas). Essa entidade permite que a equipe técnica mantenha um banco de exercícios atualizado e reutilizável.
+O cadastro de exercícios reúne os movimentos disponíveis para montagem das fichas. Cada exercício possui nome, descrição e grupo muscular trabalhado (ex.: Peito, Costas, Pernas). Possui CRUD completo e permite filtrar exercícios por grupo muscular, facilitando a busca durante a montagem de fichas.
 
 ### Fichas de Treino
 
@@ -101,7 +101,7 @@ A ficha de treino é a entidade que integra o sistema: ela vincula um aluno a um
 | Tecnologia | Versão | Uso |
 |---|---|---|
 | C# / .NET | 8.0 | Backend — Minimal API REST |
-| Entity Framework Core | — | ORM para acesso ao banco de dados |
+| Entity Framework Core | 8.0 | ORM para acesso ao banco de dados |
 | SQLite | — | Banco de dados relacional |
 | GitHub | — | Versionamento e colaboração |
 | JSON | — | Formato de comunicação da API |
@@ -125,10 +125,10 @@ dotnet tool install --global dotnet-ef
 
 ```bash
 # Clone o repositório
-git clone https://github.com/<usuario>/gymtrack.git
+git clone https://github.com/gustavolopes14/trabalhocsharp.git
 
 # Acesse a pasta do projeto
-cd gymtrack
+cd trabalhocsharp/GymTrack
 
 # Restaure as dependências
 dotnet restore
@@ -140,7 +140,8 @@ dotnet ef database update
 dotnet run
 ```
 
-A API estará disponível em `http://localhost:5000`.
+A API estará disponível em `http://localhost:5019`.  
+A documentação interativa (Swagger) estará em `http://localhost:5019/swagger`.
 
 **[⬆ voltar ao topo](#sumário)**
 
@@ -164,6 +165,8 @@ A API estará disponível em `http://localhost:5000`.
 |---|---|---|
 | GET | `/planos` | Lista todos os planos |
 | POST | `/planos` | Cadastra novo plano |
+| PUT | `/planos/{id}` | Atualiza plano |
+| DELETE | `/planos/{id}` | Remove plano |
 
 ### Exercícios
 
@@ -172,6 +175,8 @@ A API estará disponível em `http://localhost:5000`.
 | GET | `/exercicios` | Lista todos os exercícios |
 | GET | `/exercicios?grupo={grupo}` | Filtra por grupo muscular |
 | POST | `/exercicios` | Cadastra novo exercício |
+| PUT | `/exercicios/{id}` | Atualiza exercício |
+| DELETE | `/exercicios/{id}` | Remove exercício |
 
 ### Fichas de Treino
 
@@ -193,9 +198,10 @@ A API estará disponível em `http://localhost:5000`.
 - Solicitamos a geração do resumo, lista de funcionalidades e descrição detalhada de cada funcionalidade, conforme exigido pelo professor.
 - Os prompts foram direcionados para que o texto refletisse fielmente o escopo técnico do projeto (entidades, relacionamentos e tecnologias).
 - Também utilizamos o Claude para estruturar o README com base nos repositórios de referência indicados pelo professor.
+- O Claude auxiliou na resolução de problemas técnicos durante o desenvolvimento, como configuração do Entity Framework, correção de erros de build e implementação dos relacionamentos.
 
 **Revisões realizadas pela equipe:**
-- Verificação da coerência entre as funcionalidades descritas e o que será efetivamente implementado.
+- Verificação da coerência entre as funcionalidades descritas e o que foi efetivamente implementado.
 - Ajuste dos nomes das entidades para alinhar com a nomenclatura adotada no código.
 - Revisão e complementação dos endpoints da API conforme o desenvolvimento avançou.
 - Revisão geral da estrutura do README para garantir conformidade com os critérios de avaliação.
