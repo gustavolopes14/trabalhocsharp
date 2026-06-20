@@ -1,4 +1,4 @@
-# Build
+# .NET
 **/bin/
 **/obj/
 
@@ -6,6 +6,10 @@
 *.db
 *.db-shm
 *.db-wal
+
+# Node / React
+**/node_modules/
+**/build/
 
 # Configurações locais
 *.user

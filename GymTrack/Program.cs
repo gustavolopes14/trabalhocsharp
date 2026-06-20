@@ -11,6 +11,14 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.ReferenceHandler = 
         System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 
+builder.Services.AddCors(options =>
+    options.AddPolicy("AcessoTotal",
+        configs => configs
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod())
+);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -18,6 +26,8 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors("AcessoTotal");
 
 app.MapGet("/alunos", async (AppDbContext db) => 
     await db.Alunos.ToListAsync());
