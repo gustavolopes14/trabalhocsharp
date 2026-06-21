@@ -289,7 +289,7 @@ Todas as telas possuem validação de campos obrigatórios e tratamento de erros
 - Os prompts foram direcionados para que o texto refletisse fielmente o escopo técnico do projeto (entidades, relacionamentos, tecnologias de backend e frontend).
 - Utilizamos o Claude para estruturar o README com base nos repositórios de referência indicados pelo professor.
 - O Claude auxiliou na resolução de problemas técnicos durante o desenvolvimento do backend, como configuração do Entity Framework, correção de erros de build e implementação dos relacionamentos.
-- Para o frontend, o Claude gerou a estrutura inicial das telas em React com TypeScript (listagem, cadastro e alteração para cada entidade), seguindo o padrão de projeto demonstrado em aula pelo professor, incluindo a integração com a API via Axios e a configuração de CORS no backend.
+- Para o frontend, utilizamos o Claude como apoio para gerar uma base inicial das telas em React com TypeScript (listagem, cadastro e alteração para cada entidade), seguindo o padrão de projeto demonstrado em aula pelo professor. A partir dessa base, a equipe ajustou a integração com a API via Axios, testou manualmente cada tela, corrigiu erros de execução (como a configuração de CORS no backend e o tratamento de referência circular no JSON) e validou o funcionamento completo do fluxo entre frontend e backend.
 
 **Revisões realizadas pela equipe:**
 - Verificação da coerência entre as funcionalidades descritas e o que foi efetivamente implementado.
